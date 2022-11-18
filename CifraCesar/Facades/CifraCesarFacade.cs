@@ -46,7 +46,7 @@ namespace CifraCesar.Facades
                 charArrayInt[i] = encryptedChar;
             }
 
-            //terceiro passo: atribuir letras aos números encripitados
+            //terceiro passo: atribuir letras aos números encriptados
 
             var charArray = new char[word.Length];
 
@@ -78,7 +78,7 @@ namespace CifraCesar.Facades
                 charArrayInt[i] = _charToIntDict[word[i]];
             }
 
-            //segundo passo: desencripitar usando a função inversa de f(x) = 5x + 4 (mod 29) que é f-¹(x) = 6x + 5
+            //segundo passo: desencriptar usando a função inversa de f(x) = 5x + 4 (mod 29) que é f-¹(x) = 6x + 5
             for (var i = 0; i < charArrayInt.Length; i++)
             {
                 var decryptedChar = charArrayInt[i];
@@ -93,7 +93,7 @@ namespace CifraCesar.Facades
                 charArrayInt[i] = decryptedChar;
             }
 
-            //terceiro passo: atribuir letras aos números desenncripitados
+            //terceiro passo: atribuir letras aos números desencriptados
             var charArray = new char[word.Length];
 
             for (var i = 0; i < word.Length; i++)
@@ -101,7 +101,7 @@ namespace CifraCesar.Facades
                 charArray[i] = _intToCharDict[charArrayInt[i]];
             }
 
-            //quarto passo: retornar a nova string encriptada
+            //quarto passo: retornar a nova string desencriptada
             var stringBuilder = new StringBuilder();
 
             foreach (char c in charArray)
