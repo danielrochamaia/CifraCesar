@@ -4,25 +4,25 @@ namespace CifraCesar.Facades
 {
     public class CifraCesarFacade
     {
+        private const int TABLE_LENGTH = 29;
+
         private readonly Dictionary<char,int> _charToIntDict = new Dictionary<char, int>
             {
                 {'a', 1 }, {'b', 2 }, {'c', 3 }, {'d', 4 }, {'e', 5 }, {'f', 6 }, {'g', 7 }, {'h', 8 }, {'i', 9 }, {'j', 10 }, {'k', 11 },
                 {'l', 12 }, {'m', 13 }, {'n', 14 }, {'o', 15 }, {'p', 16 }, {'q', 17 }, {'r', 18 }, {'s', 19 }, {'t', 20 }, {'u', 21 },
-                {'v', 22 }, {'w', 23 }, {'x', 24 }, {'y', 25 }, {'z', 26 }, {'.', 27 }, {',', 28 }, {' ', 29 }
+                {'v', 22 }, {'w', 23 }, {'x', 24 }, {'y', 25 }, {'z', 26 }, {'.', 27 }, {',', 28 }, {' ', 29 }, {'_', 29 }
             };
 
         private readonly Dictionary<int, char> _intToCharDict = new Dictionary<int, char>
             {
                 {1, 'a' }, { 2, 'b' }, { 3, 'c' }, { 4, 'd' }, { 5, 'e' }, { 6, 'f' }, { 7, 'g' }, { 8, 'h' }, { 9, 'i' }, { 10, 'j' }, { 11, 'k' },
                 { 12, 'l' }, { 13, 'm' }, { 14, 'n' }, { 15, 'o' }, { 16, 'p' }, { 17, 'q' }, { 18, 'r' }, { 19, 's' }, { 20, 't' }, { 21, 'u' },
-                { 22, 'v' }, { 23, 'w' }, { 24, 'x' }, { 25, 'y' }, { 26, 'z' }, { 27, '.' }, { 28, ',' }, { 29, ' ' }
+                { 22, 'v' }, { 23, 'w' }, { 24, 'x' }, { 25, 'y' }, { 26, 'z' }, { 27, '.' }, { 28, ',' }, { 29, '_' }
             };
 
         public string Codificar(string word)
         {
             //primeiro passo: transformar as palavras em números da tabela
-            var tableLength = _charToIntDict.Count();
-
             var charArrayInt = new int[word.Length];
 
             for(var i = 0; i < word.Length; i++)
@@ -38,9 +38,9 @@ namespace CifraCesar.Facades
 
                 encryptedChar = ((5 * encryptedChar) + 4);
 
-                if(encryptedChar > tableLength)
+                if(encryptedChar > TABLE_LENGTH)
                 {
-                    encryptedChar = encryptedChar % tableLength;
+                    encryptedChar = encryptedChar % TABLE_LENGTH;
                 }
 
                 charArrayInt[i] = encryptedChar;
@@ -69,8 +69,6 @@ namespace CifraCesar.Facades
         public string Decodificar(string word)
         {
             //primeiro passo: transformar letras em números da tabela
-            var tableLength = _charToIntDict.Count();
-
             var charArrayInt = new int[word.Length];
 
             for (var i = 0; i < word.Length; i++)
@@ -85,9 +83,9 @@ namespace CifraCesar.Facades
 
                 decryptedChar = ((6 * decryptedChar) + 5);
 
-                if (decryptedChar > tableLength)
+                if (decryptedChar > TABLE_LENGTH)
                 {
-                    decryptedChar = decryptedChar % tableLength;
+                    decryptedChar = decryptedChar % TABLE_LENGTH;
                 }
 
                 charArrayInt[i] = decryptedChar;
@@ -104,9 +102,14 @@ namespace CifraCesar.Facades
             //quarto passo: retornar a nova string desencriptada
             var stringBuilder = new StringBuilder();
 
-            foreach (char c in charArray)
+            for (var i = 0; i < charArray.Length; i++)
             {
-                stringBuilder.Append($"{c}");
+                if (charArray[i] == '_')
+                {
+                    charArray[i] = ' ';
+                }
+
+                stringBuilder.Append($"{charArray[i]}");
             }
 
             return stringBuilder.ToString();
